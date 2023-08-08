@@ -33,7 +33,9 @@
 12. use logout hook
 13. add cleanup function
 14. create login hook
+	- just like signup hook
 15. use login hook
+	- don't forget to dispatch
 16. condition to show user content
 17. firebase auth state change
 18. waiting until auth is ready
