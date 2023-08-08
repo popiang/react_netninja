@@ -37,7 +37,12 @@
 15. use login hook
 	- don't forget to dispatch
 16. condition to show user content
+	- use useAuthContext, get the user
+	- use the user to control display in navbar
 17. firebase auth state change
+	- the problem is, even though logged in, when refresh, we lose the login data
+	- so in AuthContext, we add authIsReady in the state to mark if we have checked with firebase or not when page is refreshed
+	
 18. waiting until auth is ready
 19. route guarding
 20. make transaction form
