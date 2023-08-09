@@ -42,9 +42,13 @@
 17. firebase auth state change
 	- the problem is, even though logged in, when refresh, we lose the login data
 	- so in AuthContext, we add authIsReady in the state to mark if we have checked with firebase or not when page is refreshed
-	
 18. waiting until auth is ready
+	- import useAuthContext in the App.js
+	- use isAuthReady, only display context when isAuthReady is true
 19. route guarding
+	- get user from useAuthContext
+	- import Redirect
+	- use user to control the routes accordingly
 20. make transaction form
 21. create useFirestore hook
 22. add firestore documents
