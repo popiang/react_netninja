@@ -50,11 +50,51 @@
 	- import Redirect
 	- use user to control the routes accordingly
 20. make transaction form
+	- in Home.js, the main page split into 2 columns, left is transaction list and on right transaction form
+	- create transaction form in it's own component, then import it into Home.js
+	- create the transaction form as usual and console log the name and amount
 21. create useFirestore hook
+	- to add and to remove document
+	- create the boiler plate first
+	- add at the top import all the standard things
+	- create useFirestore hook as usual, send the argument "collection" to it, so it is dynamic, can be used for any collection
+	- use useReducer, to return dispatch function and response, then create the dispatch function as usual, set the initial state of the state
+	- don't forget isCancelled
+	- get reference to collection in firestore using projectFirestore and send the collection as argument
+	- create add document and delete document functions
+	- create useEffect to set isCancelled
+	- return add document, delete document and response
 22. add firestore documents
+	- start with dispatching is pending and update the switch
+	- use try catch
+	- await ref to add doc
+	- dispatch added document if !iscancelled and update the switch
+	- when error, dispatch accordingly if !iscancelled and update the switch
 23. firestore timestamps
+	- we want to add createdAt field in the document
+	- we'll use special data type called firebase timestamp
+	- can't use normal date type coz firebase will be able to process accordingly
+	- update firebase config.js and create timestamp const and export it
+	- import it in useFirestore 
+	- create the createdAt and add it to the doc object right before saving it to the database
 24. use useFirestore hook
+	- in TransactionForm import useFirestore and get addDocument and response
+	- use addDocument function and save the document in handleSubmit
+	- use reponse to display error or loading button
+	- add uid to the document, so we know who the document belongs to
+	- get user using useAuthContext in Home.js, send user.uid to TransactionForm, then in Transaction form receive it and assign to the object which to be saved
+	- to clear the fields after saving, use useEffect in TransactionForm after handle submit, use response.success
 25. create useCollection hook
+	- to retrieve documents
+	- import standard hooks and projectFirestore
+	- set useCollection to receive parameter collection to make it dynamic
+	- create standard states
+	- use useEffect because we want the code to run right away as soon as the component mounts
+	- useEffect function fires as soon as the component using this hook mounts the dom
+	- use onSnapshot because it is a real time listener
+	- ref.onSnapshot, return unsub
+	- 
+
 26. list transactions
 27. firestore query
 28. order firestore query
