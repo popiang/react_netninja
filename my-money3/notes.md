@@ -86,16 +86,55 @@
 	- to clear the fields after saving, use useEffect in TransactionForm after handle submit, use response.success
 25. create useCollection hook
 	- to retrieve documents
-	- import standard hooks and projectFirestore
 	- set useCollection to receive parameter collection to make it dynamic
-	- create standard states
+	- import standard hooks and projectFirestore
+	- create standard states, documents and error
+	- we are not gonna use useReducer because the states involved are not as complicated as in useFirestore
 	- use useEffect because we want the code to run right away as soon as the component mounts
 	- useEffect function fires as soon as the component using this hook mounts the dom
 	- use onSnapshot because it is a real time listener
+		- it will run a function for use everytime we got a snoptshot back from firestore collection
+		- that snapshot represents that collection at that moment in time which will contain the documents on it
+		- it will fire the function again when the firestore collection changes(add, remove, update) - will send the snapshot
+		- will then update our states
 	- ref.onSnapshot, return unsub
-	- 
-
+	- we will cycle the documents inside the snapshot and update our local state - results[], snapshot.docs.forEach(doc => {results.push(...doc.data())})
+	- we will also add the document id in the results[], doc.id
+	- then update documents state, and error state
+	- pass second argument in the snapshot function, a function that receive the error and we can set error state and log out the error
+	- dont forget to unsubscribe on unmount using the unsub
+	- finally return documents and error
 26. list transactions
+	- import useColleciton in Home and get the documents and error
+	- first display error is there's any
+	- then display documents is threre's any
+	- instead of display directly, we create another component, TransactionList and we send the documents into it
+		- to make it reusable
+		- so Home is not to bloated
+	- create the component in home folder, boiler plate the code first and then import styles
+	- use ul
+	- cycle the transactions using map, coz it will return a new list of li
+	- give classname for ul, li and 2 p
+	- using transaction.id as the key in li
+	- output name and amount in p 
 27. firestore query
+	- to filter retrieved collection belongs to the logged in user
+	- use where method on the collection ref
+	- but we are not gonna do it in useCollection because maybe we want to retrieve collection without any filter
+	- instead we will pass a second arguments, the query
+	- if the query is available, we will update the ref.where with the query
+	- if the query is empty, then we will set no filter at all
+	- in Home, we add the second argument, an array with 3 elements, "uid", "==", user.uid
+	- one problem, the query is array, so it's a reference type in javascript, which will cause an infinite lop
+	- solution, use useRef
 28. order firestore query
+	- send third argument to useCollection, orderBy
+	- same concept with query, send an _array, use useRef to the the orderBy
+	- check if available, then sort, if not, don't sort
 29. delete transaction
+	- finish the delete function in useFirestore
+	- dispatch is pending, use try catch, delete using ref and is not cancelled call the dispatch function
+	- in error part, is not cancelled, call the dispatch function
+	- in TransacitonList import useFirestore, get the deleteDocument function
+	- add button at the bottom and onclick send an arrow function which will call the deleteDocument function and send in the transaction id
+	- done and done
