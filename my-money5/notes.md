@@ -19,7 +19,7 @@
 	- create state & dispatch const from useReducer which accept authReducer and user object as parameters
 	- send the state and dispatch to AuthContext.Provider so technically they will be available throughout the application since the children is the App
 	- create authReducer function which has a switch statement to delegate the return value based on action.type
-	- import AuthContextProvider in App.js and wrap App in index.js with AuthProvider
+	- import AuthContextProvider in index.js and wrap App in index.js with AuthProvider
 	- create useAuthContext hook
 	- useAuthContext will use useContext, which means it will use the context that we created above, so then we can get the info in the context
 	- import AuthContext and useContext
