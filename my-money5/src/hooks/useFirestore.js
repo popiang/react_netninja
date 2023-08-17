@@ -65,7 +65,22 @@ export const useFirestore = (collection) => {
         }
     };
 
-    const deleteDocument = async (id) => {};
+    const deleteDocument = async (id) => {
+        dispatch({ type: "IS_PENDING" });
+
+        try {
+            await ref.doc(id).delete();
+
+            if (!isCancelled) {
+                dispatch({ type: "DOCUMENT_DELETED" });
+            }
+        } catch (error) {
+            if (!isCancelled) {
+                dispatch({ type: "ERROR", payload: error.message });
+            }
+            console.log(error.message);
+        }
+    };
 
     useEffect(() => {
         return () => setIsCancelled(true);

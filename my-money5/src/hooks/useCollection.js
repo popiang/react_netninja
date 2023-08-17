@@ -1,12 +1,22 @@
 import { projectFirestore } from "../firebase/config";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
-export const useCollection = (collection) => {
+export const useCollection = (collection, _query, _orderBy) => {
     const [documents, setDocuments] = useState(null);
     const [error, setError] = useState(null);
+    const query = useRef(_query).current;
+    const orderBy = useRef(_orderBy).current;
 
     useEffect(() => {
         let ref = projectFirestore.collection(collection);
+
+        if (query) {
+            ref = ref.where(...query);
+        }
+
+        if (orderBy) {
+            ref = ref.orderBy(...orderBy);
+        }
 
         const unsub = ref.onSnapshot(
             (snapshot) => {
@@ -23,8 +33,8 @@ export const useCollection = (collection) => {
             }
         );
 
-        unsub();
-    }, [collection]);
+        return () => unsub();
+    }, [collection, query, orderBy]);
 
     return { documents, error };
 };
