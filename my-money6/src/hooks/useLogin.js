@@ -2,34 +2,32 @@ import { useEffect, useState } from "react";
 import { projectAuth } from "../firebase/config";
 import { useAuthContext } from "./useAuthContext";
 
-export const useSignup = () => {
+export const useLogin = () => {
     const [isCancelled, setIsCancelled] = useState(false);
+    const { dispatch } = useAuthContext();
     const [error, setError] = useState(null);
     const [isPending, setIsPending] = useState(false);
-    const { dispatch } = useAuthContext();
 
-    const signup = async (email, password, displayName) => {
+    const login = async (email, password) => {
         setError(null);
         setIsPending(true);
 
         try {
-            const res = await projectAuth.createUserWithEmailAndPassword(
+            const res = await projectAuth.signInWithEmailAndPassword(
                 email,
                 password
             );
 
             if (!res) {
-                throw new Error("Failed to create user");
+                throw new Error("Failed to login!!");
             }
-
-            res.user.updateProfile({ displayName: displayName });
-
-            dispatch({ type: "LOGIN", payload: res.user });
 
             if (!isCancelled) {
                 setError(null);
                 setIsPending(false);
             }
+
+            dispatch({ type: "LOGIN", payload: res.user });
         } catch (error) {
             if (!isCancelled) {
                 setError(error.message);
@@ -43,5 +41,5 @@ export const useSignup = () => {
         return () => setIsCancelled(true);
     }, []);
 
-    return { signup, error, isPending };
+    return { login, error, isPending };
 };
