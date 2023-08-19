@@ -1,4 +1,4 @@
-import { projectFirestore } from "../firebase/config";
+import { projectFirestore, timestamp } from "../firebase/config";
 import { useState, useEffect, useReducer } from "react";
 
 const initialState = {
@@ -24,8 +24,8 @@ const firestoreReducer = (response, action) => {
                 isPending: false,
                 success: true,
             };
-		case "DELETED_DOCUMENT":
-			return {
+        case "DELETED_DOCUMENT":
+            return {
                 document: null,
                 error: null,
                 isPending: false,
@@ -52,7 +52,8 @@ export const useFirestore = (collection) => {
         dispatch({ type: "IS_PENDING" });
 
         try {
-            const addedDocument = await ref.add(doc);
+            const createdAt = timestamp.fromDate(new Date());
+            const addedDocument = await ref.add({ ...doc, createdAt });
 
             if (!addedDocument) {
                 throw new Error("Failed to save document!!");
