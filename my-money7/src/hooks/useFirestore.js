@@ -24,8 +24,8 @@ const firestoreReducer = (state, action) => {
                 isPending: false,
                 success: true,
             };
-		case "DOCUMENT_DELETED":
-			return {
+        case "DOCUMENT_DELETED":
+            return {
                 document: null,
                 error: null,
                 isPending: false,
@@ -75,15 +75,12 @@ export const useFirestore = (collection) => {
     };
 
     const deleteDocument = async (id) => {
-		console.log("masuk!!");
         dispatch({ type: "IS_PENDING" });
 
         try {
             await ref.doc(id).delete();
-			console.log("masuk try");
-			if (!isCancelled) {
+            if (!isCancelled) {
                 dispatch({ type: "DOCUMENT_DELETED" });
-				console.log("masuk !isCancelled!!");
             }
         } catch (error) {
             if (!isCancelled) {
