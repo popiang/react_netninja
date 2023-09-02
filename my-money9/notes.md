@@ -111,7 +111,7 @@
 	- dont forget to unsubscribe on unmount using the unsub
 	- finally return documents and error
 26. list transactions
-	- import useColleciton in Home and get the documents and error
+	- import useCollection in Home and get the documents and error
 	- first display error is there's any
 	- then display documents is threre's any
 	- instead of display directly, we create another component, TransactionList and we send the documents into it

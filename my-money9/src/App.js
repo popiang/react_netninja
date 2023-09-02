@@ -1,11 +1,43 @@
-import './App.css'
+import {
+    BrowserRouter,
+    Switch,
+    Route,
+    Redirect,
+} from "react-router-dom/cjs/react-router-dom.min";
+import { useAuthContext } from "./hooks/useAuthContext";
+
+// pages & components
+import Home from "./pages/home/Home";
+import Signup from "./pages/signup/Signup";
+import Login from "./pages/login/Login";
+import Navbar from "./components/Navbar";
 
 function App() {
-  return (
-    <div className="App">
+    const { user, isAuthReady } = useAuthContext();
 
-    </div>
-  );
+    return (
+        <div>
+            {isAuthReady && (
+                <BrowserRouter>
+                    <Navbar />
+                    <Switch>
+                        <Route exact path="/">
+                            {!user && <Redirect to="/login" />}
+                            {user && <Home />}
+                        </Route>
+                        <Route path="/signup">
+                            {user && <Redirect to="/" />}
+                            {!user && <Signup />}
+                        </Route>
+                        <Route path="/login">
+                            {user && <Redirect to="/" />}
+                            {!user && <Login />}
+                        </Route>
+                    </Switch>
+                </BrowserRouter>
+            )}
+        </div>
+    );
 }
 
-export default App
+export default App;
